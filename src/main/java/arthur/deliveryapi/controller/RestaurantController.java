@@ -24,10 +24,10 @@ public class RestaurantController {
     }
 
     @PostMapping("/restaurant/register")
-    public void addRestaurant(
+    public Restaurant addRestaurant(
         @RequestBody RestaurantRequestDto requestDto
     ) {
-        restaurantService.addRestaurant(requestDto);
+        return restaurantService.addRestaurant(requestDto);
     }
 
     @GetMapping("/restaurants")

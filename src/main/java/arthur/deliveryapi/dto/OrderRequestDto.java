@@ -1,12 +1,19 @@
-package arthur.deliveryapi.dto;
+//package arthur.deliveryapi.dto;
+//
+//import arthur.deliveryapi.domain.OrderItem;
+//import lombok.Getter;
+//
+//import java.util.List;
+//
+//@Getter
+//public class OrderRequestDto {
+//    private Long restaurantId;
+//    private List<OrderItem> foods;
+//}
 
-import arthur.deliveryapi.domain.Menu;
-import lombok.Getter;
 
-import java.util.List;
-
-@Getter
-public class OrderRequestDto {
-    private Long restaurantId;
-    private List<Menu> foods;
-}
+/*
+    restaurant_id
+    food_id
+    quantity
+ */

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MenuRequestDto {
+public class FoodRequestDto {
     private String name;
     private int price;
 }

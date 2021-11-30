@@ -1,10 +1,6 @@
 package arthur.deliveryapi.domain;
 
-
-import arthur.deliveryapi.utils.Timestamped;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,7 +13,7 @@ public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long restaurantId;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -28,16 +24,27 @@ public class Restaurant {
     @Column(nullable = false)
     private int deliveryFee;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<Menu> menus = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Food> foods = new ArrayList<>();
+
+    //    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
 //    private List<Order> orders = new ArrayList<>();
 
+
+
     @Builder
-    public Restaurant(String name, int minOrderPrice, int deliveryFee) {
+    public Restaurant(
+            String name,
+            int minOrderPrice,
+            int deliveryFee
+    ) {
         this.name = name;
         this.minOrderPrice = minOrderPrice;
         this.deliveryFee = deliveryFee;
     }
+
+//    public void addFood(List<Food> foods) {
+//        this.foods.addAll(foods);
+//    }
 }

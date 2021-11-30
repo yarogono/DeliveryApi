@@ -1,5 +1,6 @@
 package arthur.deliveryapi.domain;
 
+import arthur.deliveryapi.dto.FoodRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,11 +11,11 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Menu {
+public class Food {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long menuId;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -27,8 +28,9 @@ public class Menu {
     private Restaurant restaurant;
 
     @Builder
-    public Menu(String name, int price) {
-        this.name = name;
-        this.price = price;
+    public Food(FoodRequestDto requestDto, Restaurant restaurant) {
+        this.name = requestDto.getName();
+        this.price = requestDto.getPrice();
+        this.restaurant = restaurant;
     }
 }

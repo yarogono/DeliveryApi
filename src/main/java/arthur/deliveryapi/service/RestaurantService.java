@@ -18,7 +18,7 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public void addRestaurant(RestaurantRequestDto requestDto) {
+    public Restaurant addRestaurant(RestaurantRequestDto requestDto) {
         int minOrderPrice = requestDto.getMinOrderPrice();
         int deliveryFee = requestDto.getDeliveryFee();
         if(!(1000 <= minOrderPrice && minOrderPrice <= 100000)) {
@@ -29,7 +29,7 @@ public class RestaurantService {
             throw new IllegalArgumentException("100원 단위로 입력하지 않았습니다.");
         }
 
-        if(!(0 < deliveryFee && deliveryFee <= 10_000)) {
+        if(0 > deliveryFee || deliveryFee > 10_000) {
             throw new IllegalArgumentException("기본 배달비 허용값을 벗어났습니다.");
         }
 
@@ -45,6 +45,8 @@ public class RestaurantService {
                 .build();
 
         restaurantRepository.save(restaurant);
+
+        return restaurant;
     }
 
     public List<Restaurant> findAllRestaurant() {
