@@ -23,9 +23,10 @@ public class Food {
     @Column(nullable = false)
     private int price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="restaurant_id")
+    @ManyToOne
+    @JoinColumn(name="restaurant_id", nullable = false)
     private Restaurant restaurant;
+
 
     @Builder
     public Food(FoodRequestDto requestDto, Restaurant restaurant) {

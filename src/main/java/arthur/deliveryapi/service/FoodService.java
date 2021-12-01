@@ -8,6 +8,7 @@ import arthur.deliveryapi.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,12 +23,17 @@ public class FoodService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    @Transactional
     public void addRestaurantFood(
             Long restaurantId,
             List<FoodRequestDto> requestDtoList
     ) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow();
+                .orElse(null);
+
+        if (restaurant == null) {
+            throw new IllegalArgumentException("해당 음식점이 없습니다.");
+        }
 
         for (FoodRequestDto requestDto : requestDtoList) {
 
@@ -43,8 +49,8 @@ public class FoodService {
             if (price % 100 > 0) {
                 throw new IllegalArgumentException("음식 가격이 100원 단위로 입력되었습니다.");
             }
-            Optional<Food> found = foodRepository.findFoodByRestaurantAndName(restaurant, requestDto.getName());
 
+            Optional<Food> found = foodRepository.findFoodByRestaurantAndName(restaurant, requestDto.getName());
             if(found.isPresent()){
                 throw new IllegalArgumentException("중복된 이름의 음식이 존재합니다.");
             }
@@ -52,7 +58,6 @@ public class FoodService {
             Food food = new Food(requestDto, restaurant);
             foodRepository.save(food);
         }
-
     }
 
     public List<Food> findAllRestaurantFoods(Long restaurantId) {
