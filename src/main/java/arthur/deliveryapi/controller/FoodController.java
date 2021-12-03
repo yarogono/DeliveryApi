@@ -3,21 +3,22 @@ package arthur.deliveryapi.controller;
 import arthur.deliveryapi.domain.Food;
 import arthur.deliveryapi.dto.FoodRequestDto;
 import arthur.deliveryapi.service.FoodService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = {"Food"})
 @RestController
+@RequiredArgsConstructor
 public class FoodController {
 
     private final FoodService foodService;
 
-    @Autowired
-    public FoodController(FoodService foodService) {
-        this.foodService = foodService;
-    }
-
+    
+    @ApiOperation(value = "레스토랑 음식 추가", notes = "해당 레스토랑에 음식 추가")
     @PostMapping("/restaurant/{restaurantId}/food/register")
     public void addRestaurantFood(
             @PathVariable Long restaurantId,
@@ -26,6 +27,7 @@ public class FoodController {
         foodService.addRestaurantFood(restaurantId, requestDtoList);
     }
 
+    @ApiOperation(value = "레스토랑 음식 조회", notes = "해당 레스토랑의 모든 음식 조회")
     @GetMapping("/restaurant/{restaurantId}/foods")
     public List<Food> findAllRestaurantFoods(
             @PathVariable Long restaurantId
