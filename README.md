@@ -23,7 +23,8 @@ https://www.erdcloud.com/d/5dcNW9ZfKchuXPP9B
 - 각 Entity의 연관 관계를 제대로 설정하지 않으면 순환참조에 빠지게 된다.
 - JPA를 사용해 코드를 구현하면서 H2를 사용해서 직접 눈으로 설계된 테이블을 확인하는 방식이 큰 도움이 되었다.
 
-
+<br/>
+<br/>
 
 # 더 배워볼 것들
 - Swagger를 사용한 API 문서 자동화 툴 사용해보기
