@@ -60,6 +60,7 @@ public class FoodService {
         }
     }
 
+    @Transactional
     public List<Food> findAllRestaurantFoods(Long restaurantId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(

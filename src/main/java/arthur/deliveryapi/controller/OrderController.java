@@ -1,13 +1,11 @@
 package arthur.deliveryapi.controller;
 
-import arthur.deliveryapi.domain.Orders;
 import arthur.deliveryapi.dto.orders.request.OrdersRequestDto;
 import arthur.deliveryapi.dto.orders.response.OrdersResponseDto;
 import arthur.deliveryapi.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

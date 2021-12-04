@@ -6,6 +6,7 @@ import arthur.deliveryapi.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    @Transactional
     public Restaurant addRestaurant(RestaurantRequestDto requestDto) {
         int minOrderPrice = requestDto.getMinOrderPrice();
         int deliveryFee = requestDto.getDeliveryFee();
@@ -49,6 +51,7 @@ public class RestaurantService {
         return restaurant;
     }
 
+    @Transactional
     public List<Restaurant> findAllRestaurant() {
         return restaurantRepository.findAll();
     }

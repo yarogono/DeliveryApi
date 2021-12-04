@@ -14,6 +14,7 @@ import arthur.deliveryapi.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class OrderService {
     }
 
 
+    @Transactional
     public OrdersResponseDto order(OrdersRequestDto ordersRequestDto) {
         Restaurant restaurant = restaurantRepository.findById(ordersRequestDto.getRestaurantId())
                 .orElseThrow(
@@ -79,6 +81,7 @@ public class OrderService {
         return ordersResponseDto;
     }
 
+    @Transactional
     public List<OrdersResponseDto> findAllOrder() {
         List<OrdersResponseDto> ordersResponseDtoList = new ArrayList<>();
 
