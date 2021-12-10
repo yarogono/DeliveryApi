@@ -11,6 +11,7 @@ import arthur.deliveryapi.repository.FoodRepository;
 import arthur.deliveryapi.repository.OrderItemRepository;
 import arthur.deliveryapi.repository.OrderRepository;
 import arthur.deliveryapi.repository.RestaurantRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +21,13 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
     private final RestaurantRepository restaurantRepository;
     private final FoodRepository foodRepository;
     private final OrderItemRepository orderItemRepository;
-
-    @Autowired
-    public OrderService(OrderRepository orderRepository, RestaurantRepository restaurantRepository, FoodRepository foodRepository, OrderItemRepository orderItemRepository) {
-        this.orderRepository = orderRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.foodRepository = foodRepository;
-        this.orderItemRepository = orderItemRepository;
-    }
-
 
     @Transactional
     public OrdersResponseDto order(OrdersRequestDto ordersRequestDto) {

@@ -5,6 +5,7 @@ import arthur.deliveryapi.domain.Restaurant;
 import arthur.deliveryapi.dto.FoodRequestDto;
 import arthur.deliveryapi.repository.FoodRepository;
 import arthur.deliveryapi.repository.RestaurantRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FoodService {
     private final FoodRepository foodRepository;
     private final RestaurantRepository restaurantRepository;
-
-    @Autowired
-    public FoodService(FoodRepository foodRepository, RestaurantRepository restaurantRepository) {
-        this.foodRepository = foodRepository;
-        this.restaurantRepository = restaurantRepository;
-    }
 
     @Transactional
     public void addRestaurantFood(
