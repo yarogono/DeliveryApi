@@ -24,7 +24,7 @@ public class FoodController {
             @PathVariable Long restaurantId,
             @RequestBody List<FoodRequestDto> requestDtoList
     ) {
-        foodService.addRestaurantFood(restaurantId, requestDtoList);
+        foodService.addRestaurantFoods(restaurantId, requestDtoList);
     }
 
     @ApiOperation(value = "레스토랑 음식 조회", notes = "해당 레스토랑의 모든 음식 조회")
