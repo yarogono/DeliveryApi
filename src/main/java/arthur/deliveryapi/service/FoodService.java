@@ -6,7 +6,6 @@ import arthur.deliveryapi.dto.FoodRequestDto;
 import arthur.deliveryapi.repository.FoodRepository;
 import arthur.deliveryapi.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,12 +23,12 @@ public class FoodService {
             Long restaurantId,
             List<FoodRequestDto> requestDtoList
     ) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElse(null);
+        Optional<Restaurant> foundRestaurant = restaurantRepository.findById(restaurantId);
 
-        if (restaurant == null) {
+        if (!foundRestaurant.isPresent()) {
             throw new IllegalArgumentException("해당 음식점이 없습니다.");
         }
+        Restaurant restaurant = foundRestaurant.get();
 
         for (FoodRequestDto requestDto : requestDtoList) {
 
