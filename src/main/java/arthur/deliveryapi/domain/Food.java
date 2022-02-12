@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 @Getter
 @Entity
+@Builder
 @NoArgsConstructor
 public class Food {
 
@@ -26,12 +27,4 @@ public class Food {
     @ManyToOne
     @JoinColumn(name="restaurant_id", nullable = false)
     private Restaurant restaurant;
-
-
-    @Builder
-    public Food(FoodRequestDto requestDto, Restaurant restaurant) {
-        this.name = requestDto.getName();
-        this.price = requestDto.getPrice();
-        this.restaurant = restaurant;
-    }
 }

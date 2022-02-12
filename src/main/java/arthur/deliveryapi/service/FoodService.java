@@ -5,12 +5,10 @@ import arthur.deliveryapi.domain.Restaurant;
 import arthur.deliveryapi.dto.FoodRequestDto;
 import arthur.deliveryapi.repository.FoodRepository;
 import arthur.deliveryapi.repository.RestaurantRepository;
-import com.zaxxer.hikari.util.FastList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +30,6 @@ public class FoodService {
         }
         Restaurant restaurant = foundRestaurant.get();
 
-        List<Food> foodList = new ArrayList<>();
         for (FoodRequestDto requestDto : requestDtoList) {
 
             int price = requestDto.getPrice();
@@ -53,10 +50,15 @@ public class FoodService {
                 throw new IllegalArgumentException("중복된 이름의 음식이 존재합니다.");
             }
 
-            Food food = new Food(requestDto, restaurant);
-            foodList.add(food);
+
+            Food food = Food.builder()
+                    .name(requestDto.getName())
+                    .price(requestDto.getPrice())
+                    .restaurant(restaurant)
+                    .build();
+
+            foodRepository.save(food);
         }
-        foodRepository.saveAll(foodList);
     }
 
     @Transactional
