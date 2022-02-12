@@ -25,41 +25,50 @@ public class FoodService {
     ) {
         Optional<Restaurant> foundRestaurant = restaurantRepository.findById(restaurantId);
 
-        if (!foundRestaurant.isPresent()) {
-            throw new IllegalArgumentException("해당 음식점이 없습니다.");
-        }
+        checkRestaurant(foundRestaurant);
         Restaurant restaurant = foundRestaurant.get();
 
         for (FoodRequestDto requestDto : requestDtoList) {
+            String foodName = requestDto.getName();
+            int foodPrice = requestDto.getPrice();
 
-            int price = requestDto.getPrice();
-            if (price < 100) {
-                throw new IllegalArgumentException("음식 가격이 100원 미만입니다.");
-            }
+            checkDuplicateRestaurantFood(restaurant, foodName);
 
-            if (price > 1_000_000) {
-                throw new IllegalArgumentException("음식 가격이 1,000,000원을 초과했습니다.");
-            }
-
-            if (price % 100 > 0) {
-                throw new IllegalArgumentException("음식 가격이 100원 단위로 입력되었습니다.");
-            }
-
-            Optional<Food> found = foodRepository.findFoodByRestaurantAndName(restaurant, requestDto.getName());
-            if(found.isPresent()){
-                throw new IllegalArgumentException("중복된 이름의 음식이 존재합니다.");
-            }
-
+            checkFoodPrice(foodPrice);
 
             Food food = Food.builder()
-                    .name(requestDto.getName())
-                    .price(requestDto.getPrice())
+                    .name(foodName)
+                    .price(foodPrice)
                     .restaurant(restaurant)
                     .build();
 
             foodRepository.save(food);
         }
     }
+
+
+    private void checkRestaurant(Optional<Restaurant> foundRestaurant) {
+        if (!foundRestaurant.isPresent())
+            throw new IllegalArgumentException("해당 음식점이 없습니다.");
+    }
+
+    private void checkDuplicateRestaurantFood(Restaurant restaurant, String foodName) {
+        Optional<Food> found = foodRepository.findFoodByRestaurantAndName(restaurant, foodName);
+        if(found.isPresent())
+            throw new IllegalArgumentException("중복된 이름의 음식이 존재합니다.");
+    }
+
+    private void checkFoodPrice(int foodPrice) {
+        if (foodPrice < 100)
+            throw new IllegalArgumentException("음식 가격이 100원 미만입니다.");
+
+        if (foodPrice > 1_000_000)
+            throw new IllegalArgumentException("음식 가격이 1,000,000원을 초과했습니다.");
+
+        if (foodPrice % 100 > 0)
+            throw new IllegalArgumentException("음식 가격이 100원 단위로 입력되었습니다.");
+    }
+
 
     @Transactional
     public List<Food> findAllRestaurantFoods(Long restaurantId) {

@@ -1,6 +1,7 @@
 package arthur.deliveryapi.domain;
 
 import arthur.deliveryapi.dto.FoodRequestDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Food {
 
     @Id
