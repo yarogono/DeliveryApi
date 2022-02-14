@@ -12,12 +12,13 @@ import arthur.deliveryapi.repository.OrderItemRepository;
 import arthur.deliveryapi.repository.OrderRepository;
 import arthur.deliveryapi.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+
+import static arthur.deliveryapi.exception.ExceptionMessages.*;
 
 
 @Service
@@ -31,10 +32,8 @@ public class OrderService {
 
     @Transactional
     public OrdersResponseDto order(OrdersRequestDto ordersRequestDto) {
-        Restaurant restaurant = restaurantRepository.findById(ordersRequestDto.getRestaurantId())
-                .orElseThrow(
-                        () -> new NullPointerException("해당 음식점이 없습니다.")
-                );
+        Restaurant restaurant = getRestaurant(ordersRequestDto);
+
         int totalPrice = 0;
         List<FoodsResponseDto> foodsResponseDtoList = new ArrayList<>();
         List<OrderItem> orderItems = ordersRequestDto.getFoods();
@@ -43,11 +42,10 @@ public class OrderService {
 
             int quantity = tempOrderItem.getQuantity();
             if (quantity < 1 || quantity > 100) {
-                throw new IllegalArgumentException("음식 주문 수량은 1 ~ 100미만으로 입니다.");
+                throw new IllegalArgumentException(ILLEGAL_FOOD_ORDER_QUANTITY);
             }
 
-            Food food = foodRepository.findById(tempOrderItem.getId())
-                    .orElseThrow(() -> new NullPointerException("해당 음식이 없습니다."));
+            Food food = getFood(tempOrderItem);
 
             OrderItem orderItem = OrderItem.builder()
                     .quantity(tempOrderItem.getQuantity())
@@ -63,7 +61,7 @@ public class OrderService {
         }
 
         if (totalPrice < restaurant.getMinOrderPrice()) {
-            throw new IllegalArgumentException("음식점의 최소 주문 가격을 넘지 않았습니다.");
+            throw new IllegalArgumentException(ILLEGAL_TOTAL_PRICE);
         }
 
         int deliveryFee = restaurant.getDeliveryFee();
@@ -72,6 +70,20 @@ public class OrderService {
         orderRepository.save(orders);
         OrdersResponseDto ordersResponseDto = new OrdersResponseDto(orders, deliveryFee, foodsResponseDtoList);
         return ordersResponseDto;
+    }
+
+
+    private Restaurant getRestaurant(OrdersRequestDto ordersRequestDto) {
+        Restaurant restaurant = restaurantRepository.findById(ordersRequestDto.getRestaurantId())
+                .orElseThrow(
+                        () -> new NullPointerException(RESTAURANT_IS_NULL)
+                );
+        return restaurant;
+    }
+
+    private Food getFood(OrderItem tempOrderItem) {
+        return foodRepository.findById(tempOrderItem.getId())
+                .orElseThrow(() -> new NullPointerException(CANT_FIND_FOOD));
     }
 
     @Transactional

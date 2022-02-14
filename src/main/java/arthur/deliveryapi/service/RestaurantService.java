@@ -4,7 +4,6 @@ import arthur.deliveryapi.domain.Restaurant;
 import arthur.deliveryapi.dto.RestaurantRequestDto;
 import arthur.deliveryapi.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
