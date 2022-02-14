@@ -19,6 +19,24 @@ public class RestaurantService {
     public Restaurant addRestaurant(RestaurantRequestDto requestDto) {
         int minOrderPrice = requestDto.getMinOrderPrice();
         int deliveryFee = requestDto.getDeliveryFee();
+
+        checkMinOrderPrice(minOrderPrice);
+
+        checkDeliveryFee(deliveryFee);
+
+        Restaurant restaurant = Restaurant
+                .builder()
+                .name(requestDto.getName())
+                .minOrderPrice(minOrderPrice)
+                .deliveryFee(deliveryFee)
+                .build();
+
+        restaurantRepository.save(restaurant);
+
+        return restaurant;
+    }
+
+    private void checkMinOrderPrice(int minOrderPrice) {
         if(!(1000 <= minOrderPrice && minOrderPrice <= 100000)) {
             throw new IllegalArgumentException("최소주문 가격 허용값을 벗어났습니다.");
         }
@@ -26,7 +44,9 @@ public class RestaurantService {
         if(minOrderPrice % 100 > 0) {
             throw new IllegalArgumentException("100원 단위로 입력하지 않았습니다.");
         }
+    }
 
+    private void checkDeliveryFee(int deliveryFee) {
         if(0 > deliveryFee || deliveryFee > 10_000) {
             throw new IllegalArgumentException("기본 배달비 허용값을 벗어났습니다.");
         }
@@ -34,18 +54,8 @@ public class RestaurantService {
         if(deliveryFee % 500 > 0) {
             throw new IllegalArgumentException("기본 배달비 500원 단위로 입력하지 않았습니다.");
         }
-
-        Restaurant restaurant = Restaurant
-                .builder()
-                .name(requestDto.getName())
-                .minOrderPrice(minOrderPrice)
-                .deliveryFee(requestDto.getDeliveryFee())
-                .build();
-
-        restaurantRepository.save(restaurant);
-
-        return restaurant;
     }
+
 
     @Transactional
     public List<Restaurant> findAllRestaurant() {
