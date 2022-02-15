@@ -1,6 +1,5 @@
 package arthur.deliveryapi.domain;
 
-import arthur.deliveryapi.dto.FoodRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
