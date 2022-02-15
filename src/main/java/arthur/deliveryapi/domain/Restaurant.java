@@ -1,5 +1,6 @@
 package arthur.deliveryapi.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,9 @@ import javax.persistence.*;
 
 @Getter
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Restaurant {
 
     @Id
@@ -23,17 +26,4 @@ public class Restaurant {
 
     @Column(nullable = false)
     private int deliveryFee;
-
-
-
-    @Builder
-    public Restaurant(
-            String name,
-            int minOrderPrice,
-            int deliveryFee
-    ) {
-        this.name = name;
-        this.minOrderPrice = minOrderPrice;
-        this.deliveryFee = deliveryFee;
-    }
 }

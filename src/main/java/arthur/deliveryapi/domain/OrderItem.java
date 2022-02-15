@@ -1,5 +1,6 @@
 package arthur.deliveryapi.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,9 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +31,4 @@ public class OrderItem {
 
     @ManyToOne
     private Orders orders;
-
-    @Builder
-    public OrderItem(int quantity, String name, int price, Food food) {
-        this.quantity = quantity;
-        this.name = name;
-        this.price = price;
-        this.food = food;
-    }
-
 }

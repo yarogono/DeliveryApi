@@ -66,7 +66,11 @@ public class OrderService {
 
         int deliveryFee = restaurant.getDeliveryFee();
         totalPrice += deliveryFee;
-        Orders orders = new Orders(restaurant.getName(), totalPrice, orderItemList);
+        Orders orders = Orders.builder()
+                .restaurantName(restaurant.getName())
+                .totalPrice(totalPrice)
+                .foods(orderItemList)
+                .build();
         orderRepository.save(orders);
         OrdersResponseDto ordersResponseDto = new OrdersResponseDto(orders, deliveryFee, foodsResponseDtoList);
         return ordersResponseDto;

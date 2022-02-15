@@ -18,17 +18,16 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
 
     @Transactional
-    public Restaurant addRestaurant(RestaurantRequestDto requestDto) {
-        int minOrderPrice = requestDto.getMinOrderPrice();
-        int deliveryFee = requestDto.getDeliveryFee();
+    public Restaurant addRestaurant(RestaurantRequestDto restaurantRequestDto) {
+        int minOrderPrice = restaurantRequestDto.getMinOrderPrice();
+        int deliveryFee = restaurantRequestDto.getDeliveryFee();
 
         checkMinOrderPrice(minOrderPrice);
 
         checkDeliveryFee(deliveryFee);
 
-        Restaurant restaurant = Restaurant
-                .builder()
-                .name(requestDto.getName())
+        Restaurant restaurant = Restaurant.builder()
+                .name(restaurantRequestDto.getName())
                 .minOrderPrice(minOrderPrice)
                 .deliveryFee(deliveryFee)
                 .build();
