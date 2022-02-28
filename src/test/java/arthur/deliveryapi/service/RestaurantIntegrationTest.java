@@ -142,34 +142,34 @@ class RestaurantIntegrationTest {
             registeredRestaurants.add(restaurantResponse);
         }
 
-        @Test
-        @Order(4)
-        @DisplayName("등록된 모든 음식점 조회")
-        void test4() {
-            // when
-            ResponseEntity<RestaurantDto[]> response = restTemplate.getForEntity(
-                    "/restaurants",
-                    RestaurantDto[].class
-            );
-
-            // then
-            assertEquals(HttpStatus.OK, response.getStatusCode());
-            RestaurantDto[] responseRestaurants = response.getBody();
-            assertNotNull(responseRestaurants);
-            assertEquals(registeredRestaurants.size(), responseRestaurants.length);
-            for (RestaurantDto responseRestaurant : responseRestaurants) {
-                RestaurantDto registerRestaurant = registeredRestaurants.stream()
-                        .filter(restaurant -> responseRestaurant.getId().equals(restaurant.getId()))
-                        .findAny()
-                        .orElse(null);
-
-                assertNotNull(registerRestaurant);
-                assertEquals(registerRestaurant.getName(), responseRestaurant.getName());
-                assertEquals(registerRestaurant.getDeliveryFee(), responseRestaurant.getDeliveryFee());
-                assertEquals(registerRestaurant.getMinOrderPrice(), responseRestaurant.getMinOrderPrice());
-            }
-        }
-    }
+//        @Test
+//        @Order(4)
+//        @DisplayName("등록된 모든 음식점 조회")
+//        void test4() {
+//            // when
+//            ResponseEntity<RestaurantDto[]> response = restTemplate.getForEntity(
+//                    "/restaurants",
+//                    RestaurantDto[].class
+//            );
+//
+//            // then
+//            assertEquals(HttpStatus.OK, response.getStatusCode());
+//            RestaurantDto[] responseRestaurants = response.getBody();
+//            assertNotNull(responseRestaurants);
+//            assertEquals(registeredRestaurants.size(), responseRestaurants.length);
+//            for (RestaurantDto responseRestaurant : responseRestaurants) {
+//                RestaurantDto registerRestaurant = registeredRestaurants.stream()
+//                        .filter(restaurant -> responseRestaurant.getId().equals(restaurant.getId()))
+//                        .findAny()
+//                        .orElse(null);
+//
+//                assertNotNull(registerRestaurant);
+//                assertEquals(registerRestaurant.getName(), responseRestaurant.getName());
+//                assertEquals(registerRestaurant.getDeliveryFee(), responseRestaurant.getDeliveryFee());
+//                assertEquals(registerRestaurant.getMinOrderPrice(), responseRestaurant.getMinOrderPrice());
+//            }
+//        }
+//    }
 
     @Nested
     @DisplayName("최소주문 가격")
