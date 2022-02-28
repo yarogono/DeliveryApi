@@ -34,3 +34,9 @@ jobs:
         if: ${{ always() }} # test가 실패해도 report를 남기기 위해 설정
         with:
           files: build/test-results/**/*.xml
+
+run: |
+  while read -r cmd
+       do
+         eval sudo $cmd
+       done < <(Rscript -e 'cat(remotes::system_requirements("ubuntu", "20.04"), sep = "\n")')
